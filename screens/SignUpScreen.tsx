@@ -14,9 +14,11 @@ const SignUpScreen: React.FC<{navigation : any}> = ({navigation}) => {
     const [confirmPassword, setConfirmPassword] = useState<string>('')
 
     const handleCreateAccount= async () => {
-        await authService.onAuthStateChange(() => navigation.navigate('Login'), () => alert('Create Account failed'))
-        await authService.signUpWithPasswordAndEmail(email, password)
-        auth.currentUser?.reload()
+        authService.signUpWithPasswordAndEmail(email, password)
+        .then((newUser) => {
+            navigation.navigate('Login')
+        })
+        .catch((e) => alert('check credentials'))
     }
 
     return (

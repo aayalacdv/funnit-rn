@@ -4,22 +4,23 @@ import { AutServiceType } from "./types/service-type";
 
 export const AuthService = (auth: Auth): AutServiceType => {
 
-    const authenticateWithEmailAndPassword = async (email: string, password: string): Promise<void | undefined> => {
+    const authenticateWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential | undefined> => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         if (!userCredential)
             return undefined
+        return userCredential
     }
 
-    const signUpWithPasswordAndEmail = async (email: string, password: string): Promise<void | undefined> => {
+    const signUpWithPasswordAndEmail = async (email: string, password: string): Promise<UserCredential | undefined> => {
         const newUser = await createUserWithEmailAndPassword(auth, email, password)
         sendEmailVerification(newUser.user)
-
             .then(() => console.log('email sent'))
 
         if (!newUser)
             return undefined
 
-        console.log(newUser.user)
+        return newUser
+
     }
 
     const signUserOut = async (): Promise<void> => {
@@ -27,9 +28,9 @@ export const AuthService = (auth: Auth): AutServiceType => {
     }
 
 
-    const updateUserProfile = async (displayName?: string, profilePicture?: string) : Promise<void> => {
+    const updateUserProfile = async (displayName?: string, profilePicture?: string): Promise<void> => {
 
-        if(!auth.currentUser){
+        if (!auth.currentUser) {
             return undefined
         }
 
@@ -45,16 +46,18 @@ export const AuthService = (auth: Auth): AutServiceType => {
 
 
     const onAuthStateChange = async (onUserLoggedIn: (user: User) => void, onUserDeauth: () => void) => {
-        onAuthStateChanged(auth, (user) => {
+        await onAuthStateChanged(auth, (user) => {
             if (user) {
-                if (user.emailVerified) {
-                    onUserLoggedIn(user)
-                } else {
-                    alert('please verify your email')
+                if (!user.emailVerified) {
+                    alert('please verify email')
+                    return
                 }
-            } else {
-                onUserDeauth()
+                onUserLoggedIn(user)
+                return
             }
+            onUserDeauth()
+            return
+
         })
     }
 
