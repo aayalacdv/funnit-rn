@@ -27,9 +27,9 @@ const SignUpScreen: React.FC<{navigation : any}> = ({navigation}) => {
         >
             <Center h='100%'>
                 <Heading marginY={2}> Create an account</Heading>
-                <InputField placeHolder='Email' value={email} onChangeText={setEmail} type={'text'} />
+                {/* <InputField placeHolder='Email' value={email} onChangeText={setEmail} type={'text'} />
                 <InputField placeHolder='Password' value={password} onChangeText={setPassword} type={'password'} />
-                <InputField placeHolder='Repeat password' value={confirmPassword} onChangeText={setConfirmPassword} type={'password'} />
+                <InputField placeHolder='Repeat password' value={confirmPassword} onChangeText={setConfirmPassword} type={'password'} /> */}
                 <CustomButton text='Create Account' onPress={() => handleCreateAccount()} />
                 <CustomButton text='Login' onPress={() => navigation.navigate('Login')} />
             </Center>

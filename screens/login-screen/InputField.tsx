@@ -7,6 +7,7 @@ type InputFieldProps = {
     type : InputType
     placeHolder: string,
     value : string, 
+    onBlur: () => void,
     onChangeText: (value: string) => void
 }
 
@@ -18,6 +19,7 @@ const InputField : React.FC<InputFieldProps> = (props) => {
         value={props.value}
         onChangeText={text => props.onChangeText(text)}
         placeholder={props.placeHolder}
+        onBlur={props.onBlur}
         w='70%' 
         p={4} 
         marginY={2}
