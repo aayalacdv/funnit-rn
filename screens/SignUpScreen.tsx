@@ -27,10 +27,10 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
 
     return (
+            <Center h='100%'>
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-            <Center h='100%'>
                 <Heading marginY={2}> Create an account</Heading>
                 <Controller
                     name='email'
@@ -110,9 +110,9 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <CustomButton text='Create Account' onPress={handleSubmit(handleCreateAccount)} />
 
                 <CustomButton text='Login' onPress={() => navigation.navigate('Login')} />
+        </KeyboardAvoidingView>
             </Center>
 
-        </KeyboardAvoidingView>
     )
 }
 

@@ -20,11 +20,13 @@ const InputField : React.FC<InputFieldProps> = (props) => {
         onChangeText={text => props.onChangeText(text)}
         placeholder={props.placeHolder}
         onBlur={props.onBlur}
+        backgroundColor='white'
         w='70%' 
-        p={4} 
+        p={2} 
         marginY={2}
         type={props.type}
-        borderRadius={15}/>
+        shadow={9}
+        borderRadius={5}/>
     )
 
 }
