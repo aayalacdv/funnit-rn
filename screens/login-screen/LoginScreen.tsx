@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import InputField from './InputField'
 import { auth } from '../../firebase/config'
 import { AuthService } from '../../helpers/auth/auth.service'
-import { UserContext, UserContextType, UserType } from '../../context/user-context'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Controller, useForm } from 'react-hook-form'
 import Logo from '../../components/Logo'
 
@@ -27,7 +27,10 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                     alert('please verify email')
                     return
                 }
-                navigation.navigate('Main')
+
+                const credentials = JSON.stringify({ email: data.email, password: data.password })
+                AsyncStorage.setItem('@credentials', credentials).then(() => navigation.navigate('Main'))
+
             })
             .catch((e) => alert('check credentials'))
 
@@ -40,7 +43,7 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         >
             <VStack h='100%' alignItems='center' justifyContent={'space-around'} paddingY={30}>
                 <Logo />
-                <VStack  marginY={40}>
+                <VStack marginY={40}>
                     <Controller
                         name='email'
                         control={control}
@@ -91,18 +94,18 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                     />
                     {errors.password && <Text>{errors.password.message}</Text>}
 
-                    <Button 
-                    shadow={5}
-                    backgroundColor={'red.300'}
-                    margin={2}
-                    alignItems={'center'}
-                    onPress={handleSubmit(handleLogin)}>
-                            Iniciar sesión
+                    <Button
+                        shadow={5}
+                        backgroundColor={'red.300'}
+                        margin={2}
+                        alignItems={'center'}
+                        onPress={handleSubmit(handleLogin)}>
+                        Iniciar sesión
                     </Button>
 
                 </VStack>
 
-                <Button shadow={9} backgroundColor={'white'}  h={10} w={'70%'}onPress={() => navigation.navigate('SignUp')}>
+                <Button shadow={9} backgroundColor={'white'} h={10} w={'70%'} onPress={() => navigation.navigate('SignUp')}>
                     <Text>
                         Crear una cuenta
                     </Text>
