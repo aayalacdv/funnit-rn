@@ -16,26 +16,36 @@ const authService = AuthService(auth)
 
 export default function App() {
 
-
   const [appIsReady, setAppIsReady] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false)
+  const [authenticated, setAuthenticated] = useState<boolean>(false)
 
   useEffect(() => {
     async function prepare() {
+      let userCredentials = undefined
       try {
+        await AsyncStorage.setItem('@credentials', '')
         const credentials = await AsyncStorage.getItem('@credentials').then((item: any) => JSON.parse(item))
-        const userCredentials = await authService.authenticateWithEmailAndPassword(credentials.email, credentials.password)
-        if (userCredentials){
-          setAuthenticated(true)
-          setAppIsReady(true);
-        } 
+        if (credentials != null) {
+          userCredentials = await authService.authenticateWithEmailAndPassword(credentials.email, credentials.password)
+          console.log('userCredentials', auth.currentUser)
+          if (userCredentials != undefined) {
+            setAuthenticated(true)
+          }
+        }
       } catch (e) {
         console.warn(e);
-      } 
+      }
+      finally {
+        if (userCredentials != undefined) {
+          setAuthenticated(true)
+        }
+        setAppIsReady(true)
+      }
     }
 
     prepare();
   }, []);
+
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
@@ -48,14 +58,25 @@ export default function App() {
     <NativeBaseProvider>
       <UserContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={authenticated ? 'Login' : 'Main'}>
-            <Stack.Screen name='Main' component={MainScreen} />
-            <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
-            <Stack.Screen name='SignUp' component={SignUpScreen} options={{ headerShown: false }} />
+          <Stack.Navigator>
+            {
+              auth.currentUser != null ?
+                <>
+                  <Stack.Screen name='Main' component={MainScreen} />
+                </>
+                :
+                <>
+                  <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name='SignUp' component={SignUpScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name='Main' component={MainScreen} />
+                </>
+            }
           </Stack.Navigator>
         </NavigationContainer>
       </UserContextProvider>
-
     </NativeBaseProvider>
   );
+
+
 }
+
