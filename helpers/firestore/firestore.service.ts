@@ -12,48 +12,48 @@ const parseTodo = (doc: QueryDocumentSnapshot): Todo => {
     return todo
 }
 
-export const fireStoreService = (collectionName: string, firestore: Firestore): FireStoreService => {
+export const fireStoreService = <T>(collectionName: string, firestore: Firestore, parsingFunction: (doc: QueryDocumentSnapshot) => T): FireStoreService<T> => {
 
-    const getAll = async (): Promise<Todo[]> => {
-        const todos: Todo[] = []
+    const getAll = async (): Promise<T[]> => {
+        const all: T[] = []
         const querySnapshot = await getDocs(collection(firestore, collectionName))
         querySnapshot.forEach((doc: QueryDocumentSnapshot) => {
-            todos.push(parseTodo(doc))
+            all.push(parsingFunction(doc))
         })
-        return todos
+        return all 
     }
 
 
-    const getOne = async (id: string): Promise<Todo | undefined> => {
-        let document
+    const getOne = async (id: string): Promise< T | null> => {
+        let document : any
         try {
-        const querySnapshot = await getDocs(collection(firestore, collectionName))
-        querySnapshot.forEach((doc: QueryDocumentSnapshot) => {
-            if(doc.id === id){
-                document =  parseTodo(doc)
-            }
-        })
-        return document
+            const querySnapshot = await getDocs(collection(firestore, collectionName))
+            querySnapshot.forEach((doc: QueryDocumentSnapshot) => {
+                if (doc.id === id) {
+                    let document = parsingFunction(doc)
+                }
+            })
+            return document
         } catch (error) {
             console.log('error', error)
-            return document
+            return null 
         }
     }
 
-    const createOne = async (todo: Todo): Promise<Todo | undefined> => {
-        const docRef = await addDoc(collection(firestore, collectionName), todo)
+    const createOne = async (newDoc : T): Promise< T | null> => {
+        const docRef = await addDoc(collection(firestore, collectionName), newDoc as any)
         return {
             id: docRef.id,
-            ...todo
+            ...newDoc
         }
     }
 
 
-    const modifyOne = async (id: string, todo: Todo): Promise<Todo> => {
-        await setDoc(doc(firestore, collectionName, id), todo)
+    const modifyOne = async (id: string, newDoc: T): Promise<T> => {
+        await setDoc(doc(firestore, collectionName, id), newDoc as any)
         return {
             id: id,
-            ...todo
+            ...newDoc
         }
     }
 

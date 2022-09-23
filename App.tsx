@@ -14,6 +14,9 @@ import { auth } from './firebase/config';
 const Stack = createNativeStackNavigator()
 const authService = AuthService(auth)
 
+
+
+
 export default function App() {
 
   const [appIsReady, setAppIsReady] = useState(false);
@@ -23,7 +26,7 @@ export default function App() {
     async function prepare() {
       let userCredentials = undefined
       try {
-        await AsyncStorage.setItem('@credentials', '')
+        // await AsyncStorage.setItem('@credentials', '')
         const credentials = await AsyncStorage.getItem('@credentials').then((item: any) => JSON.parse(item))
         if (credentials != null) {
           userCredentials = await authService.authenticateWithEmailAndPassword(credentials.email, credentials.password)
@@ -42,6 +45,8 @@ export default function App() {
         setAppIsReady(true)
       }
     }
+
+
 
     prepare();
   }, []);
@@ -62,7 +67,8 @@ export default function App() {
             {
               auth.currentUser != null ?
                 <>
-                  <Stack.Screen name='Main' component={MainScreen} />
+                  <Stack.Screen name='Main' component={MainScreen} options={{ headerShown: false }} />
+
                 </>
                 :
                 <>
