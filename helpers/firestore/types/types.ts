@@ -1,8 +1,8 @@
-type Todo = {
+type ActivityCategory = {
     id?: string, 
-    action: string, 
-    done : boolean
+    title: string, 
+    image: string,
 }
 
 
-export { Todo }
+export { ActivityCategory }

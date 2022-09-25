@@ -1,12 +1,29 @@
-import React from 'react'
-import { Box, Text, VStack, Button, ScrollView, Image } from 'native-base'
+import React, { useEffect, useState, useContext } from 'react'
+import { Box, VStack, Button, Image } from 'native-base'
 import { SafeAreaView } from 'react-native'
-import ActivityCard from '../components/ActivityCard'
+import ActivityList from '../components/ActivityList'
+import { fireStoreService } from '../helpers/firestore/firestore.service'
+import { ActivityCategory } from '../helpers/firestore/types/types'
+import { firestore } from '../firebase/config'
+import { parseActivityCategory } from '../helpers/firestore/parsers/activity-category-parser'
+import Minimap from '../components/Minimap'
+import { UserContext } from '../context/user-context'
 
+const activityService = fireStoreService<ActivityCategory>('ActivityCategory', firestore, parseActivityCategory)
 
 
 
 const MainScreen: React.FC<{ navigation: any }> = (props) => {
+    const [activities, setActivities] = useState([])
+    const userData = useContext(UserContext)
+
+    useEffect(() => {
+            activityService.getAll().then((res ) =>{
+                console.log('resutl', res)
+                setActivities(res as any)
+            })
+            console.log(userData)
+    }, [])
 
     return (
         <SafeAreaView >
@@ -19,18 +36,25 @@ const MainScreen: React.FC<{ navigation: any }> = (props) => {
                             source={require('../assets/funit_text.png')} />
 
                     </Box>
-                    <Button marginLeft={'auto'}>xd</Button>
+                    <Button
+                        onPress={() => {
+                            props.navigation.navigate('Options')
+                        }}
+                        padding={1}
+                        backgroundColor={'transparent'}
+                        marginLeft={'auto'}>
+                        <Image
+                            width={'5'}
+                            height={'5'}
+                            source={require('../assets/hamburguer.png')} />
+
+                    </Button>
 
                 </Box>
-                <Box h={'1/6'} bgColor='red.200'></Box>
-                <ScrollView 
-                bounces={true}
-                bgColor={'blue.100'}>
-                    <ActivityCard title='Tecno Experience' />
-                    <ActivityCard title='Tecno Experience' />
-                    <ActivityCard title='Tecno Experience' />
-                    <ActivityCard title='Tecno Experience' />
-                </ScrollView>
+                <Box h={'1/6'}>
+                    <Minimap/>
+                </Box>
+                <ActivityList activities={activities} />
             </VStack>
 
         </SafeAreaView>

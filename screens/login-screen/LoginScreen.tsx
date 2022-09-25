@@ -7,12 +7,14 @@ import { AuthService } from '../../helpers/auth/auth.service'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Controller, useForm } from 'react-hook-form'
 import Logo from '../../components/Logo'
+import { UserContext } from '../../context/user-context'
 
 const authService = AuthService(auth)
 
 const BG_COLOR = 'rgb(255,77,77)'
 
 const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+    const userData = useContext(UserContext)
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -29,7 +31,8 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 }
 
                 const credentials = JSON.stringify({ email: data.email, password: data.password })
-                AsyncStorage.setItem('@credentials', credentials).then(() => navigation.navigate('Main'))
+                
+                AsyncStorage.setItem('@credentials', credentials).then(() =>userData.updateUser(true))
 
             })
             .catch((e) => alert('check credentials'))

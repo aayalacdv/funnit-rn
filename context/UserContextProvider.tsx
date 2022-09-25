@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
-import { UserContext, UserType } from './user-context'
+import { UserContext} from './user-context'
 
 
 const UserContextProvider: React.FC<{children : any}> = ({children}) => {
-    const [user, setUser] = useState<UserType>({
+    const [user, setUser] = useState({
         uid: '',
         email: '',
         emailVerified: false,
         isLoggedIn: false
     })
 
-    const updateUser = (newUser: UserType) => setUser(newUser)
+    const updateUser = (loggedIn: boolean) => setUser((prev) => {
+        return {
+            ...prev, 
+            isLoggedIn: loggedIn
+        }
+    })
 
     return (
-        <UserContext.Provider value={{ user: user, updateUser: updateUser }}>
+        <UserContext.Provider value={{  ...user , updateUser: updateUser }}>
             {children}
         </UserContext.Provider>
     )

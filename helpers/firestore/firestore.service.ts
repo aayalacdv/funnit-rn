@@ -1,24 +1,15 @@
 import { FireStoreService } from "./types/service-type";
 import { addDoc, collection, deleteDoc, doc, Firestore, FirestoreError, getDocs, QueryDocumentSnapshot, QuerySnapshot, setDoc } from "firebase/firestore";
-import { Todo } from "./types/types";
 
-const parseTodo = (doc: QueryDocumentSnapshot): Todo => {
-    const todo: Todo = {
-        id: doc.id,
-        action: doc.get('action'),
-        done: doc.get('done')
-    }
 
-    return todo
-}
 
-export const fireStoreService = <T>(collectionName: string, firestore: Firestore, parsingFunction: (doc: QueryDocumentSnapshot) => T): FireStoreService<T> => {
+export const fireStoreService = <T>(collectionName: string, firestore: Firestore, parsingFunction: (doc: QueryDocumentSnapshot) => Promise<T>): FireStoreService<T> => {
 
     const getAll = async (): Promise<T[]> => {
         const all: T[] = []
         const querySnapshot = await getDocs(collection(firestore, collectionName))
-        querySnapshot.forEach((doc: QueryDocumentSnapshot) => {
-            all.push(parsingFunction(doc))
+        querySnapshot.forEach(async (doc: QueryDocumentSnapshot) => {
+            all.push(await parsingFunction(doc))
         })
         return all 
     }

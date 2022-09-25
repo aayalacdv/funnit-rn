@@ -6,7 +6,7 @@ const vrIcon = require('../assets/vr_icon.png')
 
 type ActivityCardProps = {
     title: string,
-    imageUrl?: string,
+    imageUrl: string,
 }
 const ActivityCard: React.FC<ActivityCardProps> = (props) => {
 
@@ -26,9 +26,9 @@ const ActivityCard: React.FC<ActivityCardProps> = (props) => {
                 color='white'
             >{props.title}</Text>
             <Image
-                w={20}
-                h={20}
-                source={vrIcon}
+                w={'20'}
+                h={'20'}
+                source={{uri : props.imageUrl}}
             />
         </Box>
     )
