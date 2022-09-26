@@ -9,15 +9,15 @@ import {
 import { NavigationSetup } from './screens/NavigationSetup';
 
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 2} } })
 export default function App() {
 
- 
+
   return (
     <QueryClientProvider client={queryClient}>
       <NativeBaseProvider>
         <UserContextProvider>
-            <NavigationSetup/> 
+          <NavigationSetup />
         </UserContextProvider>
       </NativeBaseProvider>
     </QueryClientProvider>

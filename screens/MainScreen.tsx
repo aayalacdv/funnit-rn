@@ -14,16 +14,6 @@ const activityService = fireStoreService<ActivityCategory>('ActivityCategory', f
 
 
 const MainScreen: React.FC<{ navigation: any }> = (props) => {
-    const [activities, setActivities] = useState([])
-    const userData = useContext(UserContext)
-
-    useEffect(() => {
-            activityService.getAll().then((res ) =>{
-                console.log('resutl', res)
-                setActivities(res as any)
-            })
-            console.log(userData)
-    }, [])
 
     return (
         <SafeAreaView >
@@ -54,7 +44,7 @@ const MainScreen: React.FC<{ navigation: any }> = (props) => {
                 <Box h={'1/6'}>
                     <Minimap/>
                 </Box>
-                <ActivityList activities={activities} />
+                <ActivityList  />
             </VStack>
 
         </SafeAreaView>

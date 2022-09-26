@@ -9,7 +9,6 @@ export type UserContextType = {
     updateAuthStatus: (prop : any) => void
 }
 
-
 export const UserContext = createContext<UserContextType>({
     uid: '',
     email: '',
@@ -17,11 +16,3 @@ export const UserContext = createContext<UserContextType>({
     emailVerified: false,
     updateAuthStatus: (prop: any) => console.log('')
 })
-
-
-
-
-
-
-
-

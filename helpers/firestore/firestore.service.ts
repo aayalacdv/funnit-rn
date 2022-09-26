@@ -3,13 +3,13 @@ import { addDoc, collection, deleteDoc, doc, Firestore, FirestoreError, getDocs,
 
 
 
-export const fireStoreService = <T>(collectionName: string, firestore: Firestore, parsingFunction: (doc: QueryDocumentSnapshot) => Promise<T>): FireStoreService<T> => {
+export const fireStoreService = <T>(collectionName: string, firestore: Firestore, parsingFunction: (doc: QueryDocumentSnapshot) => T): FireStoreService<T> => {
 
     const getAll = async (): Promise<T[]> => {
         const all: T[] = []
         const querySnapshot = await getDocs(collection(firestore, collectionName))
         querySnapshot.forEach(async (doc: QueryDocumentSnapshot) => {
-            all.push(await parsingFunction(doc))
+            all.push(await parsingFunction(doc) )
         })
         return all 
     }

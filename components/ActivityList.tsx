@@ -1,4 +1,4 @@
-import { Heading, HStack, Spinner, ScrollView } from "native-base";
+import {Text, Heading, HStack, Spinner, ScrollView } from "native-base";
 import React, { useEffect, useState } from "react";
 import { RefreshControl, } from "react-native";
 import { useQuery } from "react-query";
@@ -6,29 +6,27 @@ import { firestore } from "../firebase/config";
 import { fireStoreService } from "../helpers/firestore/firestore.service";
 import { parseActivityCategory } from "../helpers/firestore/parsers/activity-category-parser";
 import { ActivityCategory } from "../helpers/firestore/types/types";
+import { useActivities } from "../hooks/useActivities";
 import ActivityCard from "./ActivityCard";
 
 
-const activityService = fireStoreService<ActivityCategory>('ActivityCategory', firestore, parseActivityCategory)
 
-type Props = {
-    activities: ActivityCategory[]
-}
 
 const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const ActivityList: React.FC<Props> = (props) => {
+
+const ActivityList: React.FC = (props) => {
     const [refreshing, setRefreshing] = React.useState(false);
-    const { data, isLoading, isError } = useQuery('data', activityService.getAll)
+
+    const { data, isLoading, isError } = useActivities()
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
-    console.log(props.activities.length)
 
     if (isLoading) {
         return (
@@ -60,7 +58,7 @@ const ActivityList: React.FC<Props> = (props) => {
             bounces={true}
             bgColor={'blue.100'}>
             {
-                props.activities.map((activity) =>
+                data?.map((activity) =>
                     <ActivityCard key={activity.id} title={activity.title} imageUrl={activity.image} />)
             }
         </ScrollView>

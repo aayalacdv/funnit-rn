@@ -2,12 +2,11 @@ import { getStorageImageUrl } from './../../storage/storage_helper';
 import { QueryDocumentSnapshot } from "firebase/firestore";
 import { ActivityCategory } from "../types/types";
 
-export const parseActivityCategory = async (doc: QueryDocumentSnapshot) => {
-    const imageUrl = await getStorageImageUrl(doc.get('image'))
+export const parseActivityCategory = (doc: QueryDocumentSnapshot) => {
     const activityCategory: ActivityCategory = {
         id: doc.id,
         title: doc.get('title'),
-        image: imageUrl,
+        image: doc.get('image'),
 
     }
 
