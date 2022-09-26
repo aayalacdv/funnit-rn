@@ -20,7 +20,6 @@ export default function App() {
             <NavigationSetup/> 
         </UserContextProvider>
       </NativeBaseProvider>
-
     </QueryClientProvider>
   );
 

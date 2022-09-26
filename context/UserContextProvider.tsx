@@ -10,7 +10,7 @@ const UserContextProvider: React.FC<{children : any}> = ({children}) => {
         isLoggedIn: false
     })
 
-    const updateUser = (loggedIn: boolean) => setUser((prev) => {
+    const updateAuth = (loggedIn: boolean) => setUser((prev) => {
         return {
             ...prev, 
             isLoggedIn: loggedIn
@@ -18,7 +18,7 @@ const UserContextProvider: React.FC<{children : any}> = ({children}) => {
     })
 
     return (
-        <UserContext.Provider value={{  ...user , updateUser: updateUser }}>
+        <UserContext.Provider value={{  ...user , updateAuthStatus: updateAuth}}>
             {children}
         </UserContext.Provider>
     )

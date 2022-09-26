@@ -28,7 +28,7 @@ export const NavigationSetup = () => {
                 if (credentials != null) {
                     userCredentials = await authService.authenticateWithEmailAndPassword(credentials.email, credentials.password)
                     if (userCredentials != undefined) {
-                        userData.updateUser(true)
+                        userData.updateAuthStatus(true)
                         console.log(userData)
                         setAuthenticated(true)
                     }
@@ -66,16 +66,11 @@ export const NavigationSetup = () => {
                         <>
                             <Stack.Screen name='Main' component={MainScreen} options={{ headerShown: false }} />
                             <Stack.Screen name='Options' component={OptionsScreen} options={{ headerShown: false }} />
-                            {/* <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name='SignUp' component={SignUpScreen} options={{ headerShown: false }} /> */}
-
                         </>
                         :
                         <>
                             <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
                             <Stack.Screen name='SignUp' component={SignUpScreen} options={{ headerShown: false }} />
-                            {/* <Stack.Screen name='Main' component={MainScreen} options={{ headerShown: false }} /> */}
-                            {/* <Stack.Screen name='Options' component={OptionsScreen} options={{ headerShown: false}} /> */}
                         </>
                 }
             </Stack.Navigator>

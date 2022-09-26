@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AuthService } from '../helpers/auth/auth.service'
 import { auth } from '../firebase/config'
-import { Button, Center, Container, Heading, KeyboardAvoidingView, Text } from 'native-base'
+import { Button, Container,  KeyboardAvoidingView, Text } from 'native-base'
 import InputField from './login-screen/InputField'
-import CustomButton from './login-screen/CustomButton'
 import { Platform } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import Logo from '../components/Logo'
@@ -15,6 +14,7 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { control, handleSubmit, getValues, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
+            username: '',
             password: '',
             confirmPassword: ''
         }
@@ -23,6 +23,7 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const handleCreateAccount = async (data: any) => {
         authService.signUpWithPasswordAndEmail(data.email, data.password)
             .then((newUser) => {
+                authService.updateUserProfile(data.username).then(() => console.log('updated user display name'))
                 navigation.navigate('Login')
             })
             .catch((e) => alert('check credentials'))
@@ -63,6 +64,27 @@ const SignUpScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 )}
             />
             {errors.email && <Text>{errors.email.message}</Text>}
+
+            <Controller
+                name='username'
+                control={control}
+                rules={{
+                    required: {
+                        value: true,
+                        message: 'password is required'
+                    }
+
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <InputField
+                        placeHolder='username'
+                        type='text'
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                    />
+                )}
+            />
 
             <Controller
                 name='password'
