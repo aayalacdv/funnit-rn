@@ -15,6 +15,10 @@ const activityService = fireStoreService<ActivityCategory>('ActivityCategory', f
 
 const MainScreen: React.FC<{ navigation: any }> = (props) => {
 
+
+    const handleCardNavigation = (id : string) => props.navigation.navigate('Map',{id: id})
+        
+
     return (
         <SafeAreaView >
             <VStack h='full' bgColor={'amber.100'}>
@@ -42,9 +46,9 @@ const MainScreen: React.FC<{ navigation: any }> = (props) => {
 
                 </Box>
                 <Box h={'1/6'}>
-                    <Minimap/>
+                    <Minimap />
                 </Box>
-                <ActivityList  />
+                <ActivityList onPressCard={handleCardNavigation} />
             </VStack>
 
         </SafeAreaView>

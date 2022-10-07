@@ -10,6 +10,7 @@ import OptionsScreen from "./options-screen/OptionsScreen";
 import LoginScreen from "./login-screen/LoginScreen";
 import SignUpScreen from "./SignUpScreen";
 import { UserContext } from "../context/user-context";
+import MapScreen from "./map-screen/MapScreen";
 
 const authService = AuthService(auth)
 const Stack = createNativeStackNavigator()
@@ -66,6 +67,7 @@ export const NavigationSetup = () => {
                         <>
                             <Stack.Screen name='Main' component={MainScreen} options={{ headerShown: false }} />
                             <Stack.Screen name='Options' component={OptionsScreen} options={{ headerShown: false }} />
+                            <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: false }} />
                         </>
                         :
                         <>

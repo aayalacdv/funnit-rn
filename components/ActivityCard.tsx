@@ -1,4 +1,4 @@
-import { Box, Image, Text } from "native-base";
+import { Pressable, Image, Text } from "native-base";
 
 import React from "react";
 const vrIcon = require('../assets/vr_icon.png')
@@ -7,11 +7,12 @@ const vrIcon = require('../assets/vr_icon.png')
 type ActivityCardProps = {
     title: string,
     imageUrl: string,
+    onPressCard: Function
 }
 const ActivityCard: React.FC<ActivityCardProps> = (props) => {
 
     return (
-        <Box
+        <Pressable
             backgroundColor={'blue.400'}
             height={40}
             padding={5}
@@ -19,6 +20,7 @@ const ActivityCard: React.FC<ActivityCardProps> = (props) => {
             flexDirection='row'
             justifyContent={'space-between'}
             alignItems={'center'}
+            onPress={ () => props.onPressCard()}
         >
             <Text
                 fontSize={30}
@@ -30,7 +32,7 @@ const ActivityCard: React.FC<ActivityCardProps> = (props) => {
                 h={'20'}
                 source={{uri : props.imageUrl}}
             />
-        </Box>
+        </Pressable>
     )
 }
 

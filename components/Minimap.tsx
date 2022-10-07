@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import MapView from "react-native-maps";
 import * as Location from 'expo-location';
 import { StyleSheet } from 'react-native';
-import { preventAutoHideAsync } from "expo-splash-screen";
 
 
 

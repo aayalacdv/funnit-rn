@@ -1,4 +1,4 @@
-import {Text, Heading, HStack, Spinner, ScrollView } from "native-base";
+import { Text, Heading, HStack, Spinner, ScrollView } from "native-base";
 import React, { useEffect, useState } from "react";
 import { RefreshControl, } from "react-native";
 import { useQuery } from "react-query";
@@ -9,7 +9,9 @@ import { ActivityCategory } from "../helpers/firestore/types/types";
 import { useActivities } from "../hooks/useActivities";
 import ActivityCard from "./ActivityCard";
 
-
+type ActivityListProps = {
+    onPressCard: Function
+}
 
 
 const wait = (timeout: any) => {
@@ -17,7 +19,7 @@ const wait = (timeout: any) => {
 }
 
 
-const ActivityList: React.FC = (props) => {
+const ActivityList: React.FC<ActivityListProps> = (props) => {
     const [refreshing, setRefreshing] = React.useState(false);
 
     const { data, isLoading, isError } = useActivities()
@@ -59,7 +61,11 @@ const ActivityList: React.FC = (props) => {
             bgColor={'blue.100'}>
             {
                 data?.map((activity) =>
-                    <ActivityCard key={activity.id} title={activity.title} imageUrl={activity.image} />)
+                    <ActivityCard
+                        onPressCard={() => props.onPressCard(activity.id)}
+                        key={activity.id}
+                        title={activity.title}
+                        imageUrl={activity.image} />)
             }
         </ScrollView>
 
