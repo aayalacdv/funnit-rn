@@ -4,5 +4,16 @@ type ActivityCategory = {
     image: string,
 }
 
+type ActivityItem = {
+    id?: string, 
+    title: string,
+    description: string,
+    categories: string[],
+    coordinate: {
+        latitude: number, 
+        longitude: number,
+    } 
+}
 
-export { ActivityCategory }
+
+export { ActivityCategory, ActivityItem }

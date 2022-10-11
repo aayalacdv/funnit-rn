@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "native-base";
 import * as Location from 'expo-location';
-import MapView, {Marker} from "react-native-maps";
-
+import MapView, { Marker } from "react-native-maps";
+import { activityItemService } from "../../helpers/services/activityItem-service";
+import { ActivityItem } from "../../helpers/firestore/types/types";
 
 
 const MapScreen: React.FC<{ route: any }> = (props) => {
+    const [markers, setMarkers] = useState<ActivityItem[]>([]);
     const [location, setLocation] = useState<any>();
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [mapRegion, setmapRegion] = useState({
@@ -24,7 +26,13 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
             }
 
             let location = await Location.getCurrentPositionAsync({});
-            console.log(location)
+
+            const categoryId = props.route.params.id
+            const service = activityItemService()
+            const items = await service.findItemByCategory(categoryId)
+            setMarkers(items)
+
+
             setmapRegion((prev: any) => {
 
                 return {
@@ -39,6 +47,7 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
 
 
 
+
     return (
         <View >
             <MapView
@@ -46,24 +55,26 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                 style={{ alignSelf: 'stretch', height: '100%' }}
                 region={mapRegion}
             >
-                <Marker 
-                    key="xdddd"
-                    coordinate={{
-                        latitude: 37.37790717796506,
-                        longitude: -122.07685271787079,
-                    }}
-                    title='test'
-                    description='test'
-                    pinColor="red"
-                />
+                {
+                    markers.map((marker, index) => {
+                        return <Marker
+                            key={index}
+                            coordinate={{
+                                latitude: marker.coordinate.latitude,
+                                longitude: marker.coordinate.longitude,
+                            }}
+                            title={marker.title}
+                            description={marker.description}
+                            pinColor="red"
+                        />
+                    })
+
+                }
 
             </MapView>
 
         </View>)
 }
-
-
-//37.39760965633324, -122.07640351651321
 
 
 export default MapScreen
