@@ -67,7 +67,7 @@ export const NavigationSetup = () => {
                         <>
                             <Stack.Screen name='Main' component={MainScreen} options={{ headerShown: false }} />
                             <Stack.Screen name='Options' component={OptionsScreen} options={{ headerShown: false }} />
-                            <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: false }} />
+                            <Stack.Screen name='Map' component={MapScreen} options={{ headerShown: true}} />
                         </>
                         :
                         <>
