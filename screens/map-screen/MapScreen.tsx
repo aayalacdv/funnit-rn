@@ -54,6 +54,8 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                 ref={MapView => (MapView = MapView)}
                 style={{ alignSelf: 'stretch', height: '100%' }}
                 region={mapRegion}
+                showsUserLocation={true}
+                minZoomLevel={15}
             >
                 {
                     markers.map((marker, index) => {
