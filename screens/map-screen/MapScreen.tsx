@@ -4,14 +4,43 @@ import * as Location from 'expo-location';
 import MapView, { Circle, LatLng, Marker } from "react-native-maps";
 import { activityItemService } from "../../helpers/services/activityItem-service";
 import { ActivityItem } from "../../helpers/firestore/types/types";
+/*
+  red,
+    tomato,
+     orange,
+      yellow, 
+      green,
+    gold,
+     wheat, 
+     linen, 
+     tan,
+      blue,
+       aqua,
+        teal,
+         violet,
+          purple,
+           indigo,
+            turquoise,
+             navy 
+  plum.  
+ */
 
-function arePointsNear(checkPoint: LatLng, centerPoint: LatLng, radius: number) {
+const arePointsNear = (checkPoint: LatLng, centerPoint: LatLng, radius: number)  => {
     var ky = 40000 / 360;
     var kx = Math.cos(Math.PI * centerPoint.latitude / 180.0) * ky;
     var dx = Math.abs(centerPoint.longitude - checkPoint.longitude) * kx;
     var dy = Math.abs(centerPoint.latitude - checkPoint.latitude) * ky;
     return Math.sqrt(dx * dx + dy * dy) <= (radius / 1000);
 }
+
+const getColorFromCategoryId = (id: string) => {
+    switch(id){
+        case "RGtbFHHvFtI3dGy0IH22": 
+            return "indigo"
+        
+    }
+
+} 
 
 const MapScreen: React.FC<{ route: any }> = (props) => {
     const [markers, setMarkers] = useState<ActivityItem[]>([])
@@ -38,6 +67,7 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
             const categoryId = props.route.params.id
             const service = activityItemService()
             const items = await service.findItemByCategory(categoryId)
+            console.log('...items', items)
             setMarkers(items)
 
 
@@ -86,11 +116,11 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
 
                     {
                         markers
-                            .filter((marker) =>
-                                arePointsNear(
-                                    marker.coordinate,
-                                    { latitude: mapRegion.latitude, longitude: mapRegion.longitude },
-                                    radius))
+                            // .filter((marker) =>
+                            //     arePointsNear(
+                            //         marker.coordinate,
+                            //         { latitude: mapRegion.latitude, longitude: mapRegion.longitude },
+                            //         radius))
                             .map((marker, index) => {
                                 return <Marker
                                     key={index}
@@ -100,7 +130,7 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                                     }}
                                     title={marker.title}
                                     description={marker.description}
-                                    pinColor="red"
+                                    pinColor={getColorFromCategoryId(marker.categories[0])}
                                 />
                             })
 
@@ -108,6 +138,7 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                 </MapView>
             </Center>
 
+            <Text>Distancia {radius/1000} Km</Text>
             <Slider
                 onChange={(value) => setRadius(value)}
                 defaultValue={0}
@@ -120,6 +151,7 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                 </Slider.Track>
                 <Slider.Thumb />
             </Slider>
+
 
         </View>)
 }
