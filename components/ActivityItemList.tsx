@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, ScrollView, Text } from "native-base";
+import { Box, ScrollView, Text, Image } from "native-base";
 import { ActivityItem } from "../helpers/firestore/types/types";
 import { RefreshControl } from "react-native";
 import * as Location from 'expo-location'
@@ -13,11 +13,18 @@ const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const ListItem: React.FC<{ name: string, distance: number }> = ({ name, distance }) => {
+const ListItem: React.FC<{ name: string, distance: number, imageUri: string }> = ({ name, distance, imageUri}) => {
+    console.log('imageurl', imageUri)
     return (
-        <Box bgColor={'red.400'} h={100} my={2} justifyItems='center' alignItems='center' flexDirection={'row'}>
-            <Box bgColor="blue.100" h={'80%'} marginLeft={2} w={'1/5'} borderRadius={10} justifyContent='center' alignItems='center'>
-                Imagen
+        <Box 
+        backgroundColor='red.400'
+        borderColor={'black'}
+        borderTopWidth={1}
+        borderBottomWidth={1}
+        marginX={2}
+        h={100} my={2} justifyItems='center' alignItems='center' flexDirection={'row'}>
+            <Box h={'80%'} marginLeft={2} w={'1/5'} borderRadius={10} justifyContent='center' alignItems='center'>
+                <Image h='full' w='full' source={{uri: imageUri}} alt='image'/>
             </Box>
             <Box w='full' h='80%' marginLeft={10} justifyItems='center'>
                 <Text marginBottom={2} fontSize={'xl'} fontWeight='bold'>{name}</Text>
@@ -77,11 +84,12 @@ const ActivityItemList: React.FC<Props> = ({ items }) => {
                     onRefresh={onRefresh}
                 />}
             bounces={true}
-            bgColor={'blue.100'}>
+            >
             {
                 items.map((activity: ActivityItem) =>
                     <ListItem
                         name={activity.title}
+                        imageUri={activity.imageUrl}
                         distance={calculateDistanceInKm(activity.coordinate,
                             { latitude: mapRegion.latitude, longitude: mapRegion.longitude },
                         )} />)

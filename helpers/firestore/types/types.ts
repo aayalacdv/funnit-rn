@@ -6,6 +6,7 @@ type ActivityCategory = {
 
 type ActivityItem = {
     id?: string, 
+    imageUrl: string,
     title: string,
     description: string,
     categories: string[],
