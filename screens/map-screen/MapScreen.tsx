@@ -67,7 +67,6 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
             const categoryId = props.route.params.id
             const service = activityItemService()
             const items = await service.findItemByCategory(categoryId)
-            console.log('...items', items)
             setMarkers(items)
 
 

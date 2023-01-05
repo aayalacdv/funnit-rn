@@ -8,48 +8,26 @@ import { firestore } from '../firebase/config'
 import { parseActivityCategory } from '../helpers/firestore/parsers/activity-category-parser'
 import Minimap from '../components/Minimap'
 import { UserContext } from '../context/user-context'
+import Banner from '../components/Banner'
 
 const activityService = fireStoreService<ActivityCategory>('ActivityCategory', firestore, parseActivityCategory)
-
 
 
 const MainScreen: React.FC<{ navigation: any }> = (props) => {
 
 
-    const handleCardNavigation = (id : string) => props.navigation.navigate('Map',{id: id})
-        
+    const handleCardNavigation = (id: string) => props.navigation.navigate('Items', { id: id })
+    const handleOptionNavigation = () => props.navigation.navigate('Options')
 
     return (
         <SafeAreaView >
+            <Banner onPress={handleOptionNavigation} />
             <VStack h='full' bgColor={'amber.100'}>
-                <Box padding={5} bgColor='red.500' justifyContent={'center'} alignItems='center' flexDirection={'row'} >
-                    <Box w={'full'} alignItems='center'>
-                        <Image
-                            width={'1/3'}
-                            height={10}
-                            source={require('../assets/funit_text.png')} />
-
-                    </Box>
-                    <Button
-                        onPress={() => {
-                            props.navigation.navigate('Options')
-                        }}
-                        padding={1}
-                        backgroundColor={'transparent'}
-                        marginLeft={'auto'}>
-                        <Image
-                            width={'5'}
-                            height={'5'}
-                            source={require('../assets/hamburguer.png')} />
-
-                    </Button>
-
-                </Box>
-            <Pressable h={40} onPress={() => props.navigation.navigate('Map',{id: 'RGtbFHHvFtI3dGy0IH22'})}>
-                <Box h='full'>
+                <Pressable h={40} onPress={() => props.navigation.navigate('Map', { id: 'RGtbFHHvFtI3dGy0IH22' })}>
+                    <Box h='full'>
                         <Minimap />
-                </Box>
-            </Pressable>
+                    </Box>
+                </Pressable>
                 <ActivityList onPressCard={handleCardNavigation} />
             </VStack>
 
