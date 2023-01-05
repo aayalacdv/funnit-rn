@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Box, VStack, Button, Image } from 'native-base'
+import { Box, VStack, Button, Image, Pressable } from 'native-base'
 import { SafeAreaView } from 'react-native'
 import ActivityList from '../components/ActivityList'
 import { fireStoreService } from '../helpers/firestore/firestore.service'
@@ -45,9 +45,11 @@ const MainScreen: React.FC<{ navigation: any }> = (props) => {
                     </Button>
 
                 </Box>
-                <Box h={'1/6'}>
-                    <Minimap />
+            <Pressable h={40} onPress={() => props.navigation.navigate('Map',{id: 'RGtbFHHvFtI3dGy0IH22'})}>
+                <Box h='full'>
+                        <Minimap />
                 </Box>
+            </Pressable>
                 <ActivityList onPressCard={handleCardNavigation} />
             </VStack>
 

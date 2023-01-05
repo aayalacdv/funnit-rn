@@ -8,9 +8,10 @@ import { parseActivityCategory } from "../helpers/firestore/parsers/activity-cat
 import { ActivityCategory } from "../helpers/firestore/types/types";
 import { useActivities } from "../hooks/useActivities";
 import ActivityCard from "./ActivityCard";
+import { ActivityType } from "expo-location";
 
 type ActivityListProps = {
-    onPressCard: Function
+    onPressCard: (id: string) => void  
 }
 
 
@@ -60,9 +61,9 @@ const ActivityList: React.FC<ActivityListProps> = (props) => {
             bounces={true}
             bgColor={'blue.100'}>
             {
-                data?.map((activity) =>
+                data?.map((activity: ActivityCategory) =>
                     <ActivityCard
-                        onPressCard={() => props.onPressCard(activity.id)}
+                        onPressCard={() => props.onPressCard(activity.id!)}
                         key={activity.id}
                         title={activity.title}
                         imageUrl={activity.image} />)
