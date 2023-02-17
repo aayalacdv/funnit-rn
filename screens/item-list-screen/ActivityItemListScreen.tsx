@@ -33,7 +33,9 @@ const ActivityItemListScreen : React.FC = (props : any) => {
     return (
         <Box>
             <Banner onPress={() => props.navigation.navigate('Options')}/>
-            <ActivityItemList items={items}/>
+            <ActivityItemList
+              onClick={() => props.navigation.navigate('ActivityDetails')}
+             items={items}/>
         </Box>
     )
 }

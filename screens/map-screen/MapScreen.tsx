@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Center, Slider, Text, View } from "native-base";
+import { Box, Center, Slider, Text, View } from "native-base";
 import * as Location from 'expo-location';
 import MapView, { Circle, LatLng, Marker } from "react-native-maps";
 import { activityItemService } from "../../helpers/services/activityItem-service";
@@ -36,8 +36,11 @@ const arePointsNear = (checkPoint: LatLng, centerPoint: LatLng, radius: number) 
 const getColorFromCategoryId = (id: string) => {
     switch(id){
         case "RGtbFHHvFtI3dGy0IH22": 
-            return "indigo"
-        
+            return "wheat"
+        case "J6fHVbRdsNzlDdFPsJwV": 
+            return "tan"
+        case "TjVW84zzqXHwprqYqhWk": 
+            return "navy"
     }
 
 } 
@@ -64,9 +67,8 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
 
             let location = await Location.getCurrentPositionAsync({});
 
-            const categoryId = props.route.params.id
             const service = activityItemService()
-            const items = await service.findItemByCategory(categoryId)
+            const items = await service.findAll()
             setMarkers(items)
 
 
@@ -115,11 +117,6 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
 
                     {
                         markers
-                            // .filter((marker) =>
-                            //     arePointsNear(
-                            //         marker.coordinate,
-                            //         { latitude: mapRegion.latitude, longitude: mapRegion.longitude },
-                            //         radius))
                             .map((marker, index) => {
                                 return <Marker
                                     key={index}
@@ -137,7 +134,10 @@ const MapScreen: React.FC<{ route: any }> = (props) => {
                 </MapView>
             </Center>
 
-            <Text>Distancia {radius/1000} Km</Text>
+            <Box textAlign={'start'} width='70%'>
+                <Text fontSize={20} fontWeight='bold'>Distancia {radius/1000} Km</Text>
+            </Box>
+
             <Slider
                 onChange={(value) => setRadius(value)}
                 defaultValue={0}

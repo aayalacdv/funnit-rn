@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Box, ScrollView, Text, Image } from "native-base";
+import { Box, ScrollView, Text, Image, Pressable } from "native-base";
 import { ActivityItem } from "../helpers/firestore/types/types";
 import { RefreshControl } from "react-native";
 import * as Location from 'expo-location'
 import { LatLng } from "react-native-maps";
 
 type Props = {
-    items: ActivityItem[]
+    items: ActivityItem[],
+    onClick: () => void
 }
 
 const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const ListItem: React.FC<{ name: string, distance: number, imageUri: string }> = ({ name, distance, imageUri}) => {
-    console.log('imageurl', imageUri)
+const ListItem: React.FC<{ name: string, distance: number, imageUri: string, onClick: () => void}> = ({ name, distance, imageUri, onClick}) => {
     return (
-        <Box 
-        backgroundColor='red.400'
+        <Pressable
+        onPress={() => onClick()}
         borderColor={'black'}
         borderTopWidth={1}
         borderBottomWidth={1}
@@ -30,7 +30,7 @@ const ListItem: React.FC<{ name: string, distance: number, imageUri: string }> =
                 <Text marginBottom={2} fontSize={'xl'} fontWeight='bold'>{name}</Text>
                 <Text fontSize={'xl'} fontWeight='bold'>Distancia: {distance} Km</Text>
             </Box>
-        </Box>
+        </Pressable>
     )
 }
 
@@ -42,7 +42,7 @@ const calculateDistanceInKm = (checkPoint: LatLng, centerPoint: LatLng) => {
     return Math.floor(Math.sqrt(dx * dx + dy * dy) * 10) / 10
 }
 
-const ActivityItemList: React.FC<Props> = ({ items }) => {
+const ActivityItemList: React.FC<Props> = ({ items, onClick}) => {
 
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
@@ -88,6 +88,7 @@ const ActivityItemList: React.FC<Props> = ({ items }) => {
             {
                 items.map((activity: ActivityItem) =>
                     <ListItem
+                        onClick={onClick} 
                         name={activity.title}
                         imageUri={activity.imageUrl}
                         distance={calculateDistanceInKm(activity.coordinate,
