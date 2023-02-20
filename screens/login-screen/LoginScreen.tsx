@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { KeyboardAvoidingView, Heading, Text, Image, VStack, Button, Container } from 'native-base'
+import { KeyboardAvoidingView,  Text, VStack, Button } from 'native-base'
 import { Platform } from 'react-native'
 import InputField from './InputField'
 import { auth } from '../../firebase/config'
@@ -32,7 +32,10 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                 const credentials = JSON.stringify({ email: data.email, password: data.password })
                 
-                AsyncStorage.setItem('@credentials', credentials).then(() =>userData.updateAuthStatus(true))
+                AsyncStorage.setItem('@credentials', credentials).then(() =>{
+                    userData.isLoggedIn = true
+                    userData.emailVerified = true
+                })
 
             })
             .catch((e) => alert('check credentials'))

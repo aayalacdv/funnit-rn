@@ -6,7 +6,6 @@ export type UserContextType = {
     email: string,
     emailVerified: boolean,
     isLoggedIn: boolean
-    updateAuthStatus: (prop : any) => void
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -14,5 +13,4 @@ export const UserContext = createContext<UserContextType>({
     email: '',
     isLoggedIn: false,
     emailVerified: false,
-    updateAuthStatus: (prop: any) => console.log('')
 })

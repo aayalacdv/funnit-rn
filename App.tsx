@@ -7,11 +7,13 @@ import {
 } from 'react-query'
 
 import { NavigationSetup } from './screens/NavigationSetup';
+import { useSavedCredentials } from './hooks/useSavedCredentials';
+import { useCallback, useContext, useEffect } from 'react';
+import { UserContext } from './context/user-context';
 
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 2} } })
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 2 } } })
 export default function App() {
-
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -22,7 +24,4 @@ export default function App() {
       </NativeBaseProvider>
     </QueryClientProvider>
   );
-
-
 }
-
