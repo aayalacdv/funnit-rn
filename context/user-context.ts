@@ -1,11 +1,13 @@
 import { createContext } from 'react'
 
 
+
 export type UserContextType = {
     uid: string,
     email: string,
     emailVerified: boolean,
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    updateAuthStatus: (status: boolean) => void
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -13,4 +15,5 @@ export const UserContext = createContext<UserContextType>({
     email: '',
     isLoggedIn: false,
     emailVerified: false,
+    updateAuthStatus: () => false
 })

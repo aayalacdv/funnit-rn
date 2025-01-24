@@ -10,6 +10,7 @@ import { NavigationSetup } from './screens/NavigationSetup';
 import { useSavedCredentials } from './hooks/useSavedCredentials';
 import { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from './context/user-context';
+import React from 'react';
 
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 2 } } })

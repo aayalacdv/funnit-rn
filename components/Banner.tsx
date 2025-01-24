@@ -1,4 +1,5 @@
 import { Box, Button, Image} from "native-base"
+import React from "react"
 
 type Props = {
     onPress : () => void

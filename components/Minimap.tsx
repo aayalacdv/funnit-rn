@@ -1,8 +1,9 @@
 import { Text, View } from "native-base";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MapView from "react-native-maps";
 import * as Location from 'expo-location';
 import { StyleSheet } from 'react-native';
+import React from "react";
 
 
 

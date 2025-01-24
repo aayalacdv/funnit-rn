@@ -12,11 +12,13 @@ import ActivityItemListScreen from "./item-list-screen/ActivityItemListScreen";
 import ActivityDetailsScreen from "./activity-details-screen/activity-details-screen";
 import { useSavedCredentials } from "../hooks/useSavedCredentials";
 import * as SplashScreen from 'expo-splash-screen';
+import React from "react";
 
 const Stack = createNativeStackNavigator()
 
 export const NavigationSetup = () => {
     const userData = useContext(UserContext)
+
     const hasCredentials = useSavedCredentials()
 
     const onLayoutRootView = useCallback(async () => {

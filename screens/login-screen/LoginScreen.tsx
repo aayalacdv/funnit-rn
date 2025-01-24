@@ -33,8 +33,7 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 const credentials = JSON.stringify({ email: data.email, password: data.password })
                 
                 AsyncStorage.setItem('@credentials', credentials).then(() =>{
-                    userData.isLoggedIn = true
-                    userData.emailVerified = true
+                    userData.updateAuthStatus(true)
                 })
 
             })
